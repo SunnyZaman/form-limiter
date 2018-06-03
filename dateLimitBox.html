@@ -1,0 +1,87 @@
+<html>
+<head>
+<style>
+
+</style>
+<script type="text/javascript">
+ function clickFunction(){
+        var date_regex = /^(0?[1-9]|1[0-2])\/(0?[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/ ;
+         var time_regex = /^([01]\d|2[0-3]):?([0-5]\d):?([0-5]\d)$/;
+      if(!(date_regex.test(document.getElementById('date').value)) && ( document.getElementById('time').value=='')&& (document.getElementById('date').value!=''))
+      {
+        document.getElementById("dateFormat").innerHTML = "Enter date in correct format";
+         document.getElementById("popup").innerHTML = "";
+      }
+    else if((date_regex.test(document.getElementById('date').value)) && (document.getElementById('time').value=='') && (document.getElementById('date').value!=''))
+      {
+        document.getElementById("dateFormat").innerHTML = "";
+         document.getElementById("popup").innerHTML = "";
+      }
+      
+       else if((date_regex.test(document.getElementById('date').value)) && (document.getElementById('time').value!='') && (document.getElementById('date').value!='') && !(time_regex.test(document.getElementById('time').value)))
+      {
+        document.getElementById("dateFormat").innerHTML = "";
+         document.getElementById("popup").innerHTML = "";
+         document.getElementById("timeFormat").innerHTML = "Enter time in correct format";
+      }
+      
+      else if((time_regex.test(document.getElementById('time').value)) && (document.getElementById('date').value!='') && (document.getElementById('time').value!='') && !(date_regex.test(document.getElementById('date').value)))
+      {
+        document.getElementById("timeFormat").innerHTML = "";
+         document.getElementById("popup").innerHTML = "";
+         document.getElementById("dateFormat").innerHTML = "Enter date in correct format";
+      }
+      
+     else if(!(time_regex.test(document.getElementById('time').value)) && ( document.getElementById('date').value=='')&& (document.getElementById('time').value!=''))
+      {
+        document.getElementById("timeFormat").innerHTML = "Enter time in correct format";
+         document.getElementById("popup").innerHTML = "";
+      }
+    else if((time_regex.test(document.getElementById('time').value)) && (document.getElementById('date').value=='') && (document.getElementById('time').value!=''))
+      {
+        document.getElementById("timeFormat").innerHTML = "";
+         document.getElementById("popup").innerHTML = "";
+      }
+      
+      else if(!(time_regex.test(document.getElementById('time').value)) && !(date_regex.test(document.getElementById('date').value)) && (document.getElementById('date').value!='')
+      &&  (document.getElementById('time').value!='')){
+        document.getElementById("dateFormat").innerHTML = "";
+        document.getElementById("timeFormat").innerHTML = "";
+         document.getElementById("popup").innerHTML = "Incorrect Format: Date and Time";
+      }
+      
+       else if(document.getElementById('date').value=='' && document.getElementById('time').value==''){
+        document.getElementById("dateFormat").innerHTML = "";
+          document.getElementById("popup").innerHTML = "Please enter all information";
+        }
+        else{
+         google.script.run
+         .withSuccessHandler(google.script.host.close)
+         .getDateLimit(document.getElementById('date').value, document.getElementById('time').value);
+        }
+      }
+  
+</script>
+</head>
+<body>
+  <div id = "container">
+    <form id = "formDate">
+      <label>Date: </label>
+      <input name="date" id= "date"type="text" maxlength="255"  placeholder="mm/dd/yyyy"/>
+      <br>
+       <p id="dateFormat"></p>
+      <br><br>
+       <label>Time: </label>
+      <input name="time" id= "time"type="text" maxlength="255"  placeholder="hh:mm:ss"/>
+      <br>
+      <p id="timeFormat"></p>
+      <br><br>
+        <input id="buttonS" type="button" value="Submit" onclick="clickFunction()"/>
+        <input id="buttonC" type="button" value="Cancel" onclick="google.script.host.close();"/>
+        
+    </form>
+    <p id="popup"></p>
+  </div>
+</body>
+</html>
+
